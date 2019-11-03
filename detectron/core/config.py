@@ -38,6 +38,7 @@ from ast import literal_eval
 from future.utils import iteritems
 from past.builtins import basestring
 import copy
+import io
 import logging
 import numpy as np
 import os
