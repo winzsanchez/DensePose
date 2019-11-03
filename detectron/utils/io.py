@@ -30,6 +30,20 @@ def save_object(obj, file_name):
         pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
 
 
+def load_object(file_name):
+    with open(file_name, 'rb') as f:
+        # The default encoding used while unpickling is 7-bit (ASCII.) However,
+        # the blobs are arbitrary 8-bit bytes which don't agree. The absolute
+        # correct way to do this is to use `encoding="bytes"` and then interpret
+        # the blob names either as ASCII, or better, as unicode utf-8. A
+        # reasonable fix, however, is to treat it the encoding as 8-bit latin1
+        # (which agrees with the first 256 characters of Unicode anyway.)
+        if six.PY2:
+            return pickle.load(f)
+        else:
+            return pickle.load(f, encoding='latin1')
+
+
 def cache_url(url_or_file, cache_dir):
     """Download the file specified by the URL to the cache_dir and return the
     path to the cached file. If the argument is not a URL, simply return it as

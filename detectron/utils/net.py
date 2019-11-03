@@ -25,6 +25,7 @@ from caffe2.python import workspace
 
 from detectron.core.config import cfg
 from detectron.core.config import load_cfg
+from detectron.utils.io import load_object
 from detectron.utils.io import save_object
 import detectron.utils.c2 as c2_utils
 
@@ -50,15 +51,16 @@ def initialize_gpu_from_weights_file(model, weights_file, gpu_id=0):
     """
     logger.info('Loading weights from: {}'.format(weights_file))
     ws_blobs = workspace.Blobs()
-    with open(weights_file, 'r') as f:
-        src_blobs = pickle.load(f)
-    if 'cfg' in src_blobs:
-        saved_cfg = load_cfg(src_blobs['cfg'])
-        configure_bbox_reg_weights(model, saved_cfg)
-    if 'blobs' in src_blobs:
-        # Backwards compat--dictionary used to be only blobs, now they are
-        # stored under the 'blobs' key
-        src_blobs = src_blobs['blobs']
+    src_blobs = load_object(weights_file)
+#    with open(weights_file, 'r') as f:
+#        src_blobs = pickle.load(f)
+#    if 'cfg' in src_blobs:
+#        saved_cfg = load_cfg(src_blobs['cfg'])
+#        configure_bbox_reg_weights(model, saved_cfg)
+#    if 'blobs' in src_blobs:
+#        # Backwards compat--dictionary used to be only blobs, now they are
+#        # stored under the 'blobs' key
+#        src_blobs = src_blobs['blobs']
     # Initialize weights on GPU gpu_id only
     unscoped_param_names = OrderedDict()  # Print these out in model order
     for blob in model.params:
