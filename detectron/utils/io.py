@@ -12,7 +12,7 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-import cPickle as pickle
+from six.moves import cPickle as pickle
 import hashlib
 import logging
 import os

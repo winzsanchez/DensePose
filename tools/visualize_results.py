@@ -13,7 +13,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import argparse
-import cPickle as pickle
+from six.moves import cPickle as pickle
 import cv2
 import os
 import sys

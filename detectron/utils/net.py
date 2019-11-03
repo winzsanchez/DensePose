@@ -13,7 +13,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 from collections import OrderedDict
-import cPickle as pickle
+from six.moves import cPickle as pickle
 import logging
 import numpy as np
 import os
