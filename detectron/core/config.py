@@ -36,7 +36,7 @@ from __future__ import unicode_literals
 
 from ast import literal_eval
 from future.utils import iteritems
-from past.builtins import basestring
+#from past.builtins import basestring
 import copy
 import io
 import logging
@@ -1139,9 +1139,11 @@ def cache_cfg_urls():
 
 def get_output_dir(datasets, training=True):
     """Get the output directory determined by the current global config."""
-    assert isinstance(datasets, (tuple, list, basestring)), \
+#    assert isinstance(datasets, (tuple, list, basestring)), \
+    assert isinstance(datasets, tuple([tuple, list] + list(six.string_types))), \
         'datasets argument must be of type tuple, list or string'
-    is_string = isinstance(datasets, basestring)
+#    is_string = isinstance(datasets, basestring)
+    is_string = isinstance(datasets, six.string_types)
     dataset_name = datasets if is_string else ':'.join(datasets)
     tag = 'train' if training else 'test'
     # <output-dir>/<train|test>/<dataset-name>/<model-type>/
@@ -1276,7 +1278,8 @@ def _decode_cfg_value(v):
     if isinstance(v, dict):
         return AttrDict(v)
     # All remaining processing is only applied to strings
-    if not isinstance(v, basestring):
+#    if not isinstance(v, basestring):
+    if not isinstance(v, six.string_types):
         return v
     # Try to interpret `v` as a:
     #   string, number, tuple, list, dict, boolean, or None
@@ -1314,7 +1317,8 @@ def _check_and_coerce_cfg_value_type(value_a, value_b, key, full_key):
     # Exceptions: numpy arrays, strings, tuple<->list
     if isinstance(value_b, np.ndarray):
         value_a = np.array(value_a, dtype=value_b.dtype)
-    elif isinstance(value_b, basestring):
+#    elif isinstance(value_b, basestring):
+    elif isinstance(value_b, six.string_types):
         value_a = str(value_a)
     elif isinstance(value_a, tuple) and isinstance(value_b, list):
         value_a = list(value_a)
