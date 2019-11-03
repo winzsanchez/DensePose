@@ -38,10 +38,7 @@ def load_object(file_name):
         # the blob names either as ASCII, or better, as unicode utf-8. A
         # reasonable fix, however, is to treat it the encoding as 8-bit latin1
         # (which agrees with the first 256 characters of Unicode anyway.)
-        if six.PY2:
-            return pickle.load(f)
-        else:
-            return pickle.load(f, encoding='latin1')
+        return pickle.load(f, encoding='latin1')
 
 
 def cache_url(url_or_file, cache_dir):
