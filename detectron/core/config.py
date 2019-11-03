@@ -1151,15 +1151,20 @@ def get_output_dir(datasets, training=True):
 
 def load_cfg(cfg_to_load):
     """Wrapper around yaml.load used for maintaining backward compatibility"""
-    assert isinstance(cfg_to_load, (file, basestring)), \
-        'Expected {} or {} got {}'.format(file, basestring, type(cfg_to_load))
-    if isinstance(cfg_to_load, file):
+#    assert isinstance(cfg_to_load, (file, basestring)), \
+#        'Expected {} or {} got {}'.format(file, basestring, type(cfg_to_load))
+    file_types = [file, io.IOBase] if six.PY2 else [io.IOBase]  # noqa false positive
+    expected_types = tuple(file_types + list(six.string_types))
+    assert isinstance(cfg_to_load, expected_types), \
+        'Expected one of {}, got {}'.format(expected_types, type(cfg_to_load))
+#    if isinstance(cfg_to_load, file):
+    if isinstance(cfg_to_load, tuple(file_types)):
         cfg_to_load = ''.join(cfg_to_load.readlines())
-    if isinstance(cfg_to_load, basestring):
-        for old_module, new_module in iteritems(_RENAMED_MODULES):
-            # yaml object encoding: !!python/object/new:<module>.<object>
-            old_module, new_module = 'new:' + old_module, 'new:' + new_module
-            cfg_to_load = cfg_to_load.replace(old_module, new_module)
+#    if isinstance(cfg_to_load, basestring):
+    for old_module, new_module in iteritems(_RENAMED_MODULES):
+        # yaml object encoding: !!python/object/new:<module>.<object>
+        old_module, new_module = 'new:' + old_module, 'new:' + new_module
+        cfg_to_load = cfg_to_load.replace(old_module, new_module)
     return yaml.load(cfg_to_load)
 
 
