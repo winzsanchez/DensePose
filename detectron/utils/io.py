@@ -18,7 +18,7 @@ import logging
 import os
 import re
 import sys
-from six.moves import urllib as urllib2
+from six.moves import urllib.request as urllib2
 
 logger = logging.getLogger(__name__)
 
