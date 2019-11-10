@@ -454,7 +454,6 @@ def vis_IUV(
     All_Coords[:,:,1:3] = 255. * All_Coords[:,:,1:3]
     All_Coords[All_Coords>255] = 255.
     All_Coords = All_Coords.astype(np.uint8)
-    All_inds = All_inds.astype(np.uint8)
     #
     print('Returning IUV')
 
