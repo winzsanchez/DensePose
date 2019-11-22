@@ -76,6 +76,13 @@ def parse_args():
     parser.add_argument(
         'im_or_folder', help='image or folder of images', default=None
     )
+    parser.add_argument(
+        '--first',
+        dest='first',
+        help='only visualize the first k classes',
+        default=0,
+        type=int
+    )
     if len(sys.argv) == 1:
         parser.print_help()
         sys.exit(1)
@@ -129,7 +136,8 @@ def main(args):
             box_alpha=0.3,
             show_class=True,
             thresh=0.7,
-            kp_thresh=2
+            kp_thresh=2,
+            limit=args.first
         )
 
 

@@ -243,7 +243,7 @@ def vis_one_image_opencv(
 def vis_one_image(
         im, im_name, output_dir, boxes, segms=None, keypoints=None, body_uv=None, thresh=0.9,
         kp_thresh=2, dpi=200, box_alpha=0.0, dataset=None, show_class=False,
-        ext='pdf'):
+        ext='pdf', limit=0):
     """Visual debugging of detections."""
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
@@ -276,6 +276,9 @@ def vis_one_image(
     # Display in largest to smallest order to reduce occlusion
     areas = (boxes[:, 2] - boxes[:, 0]) * (boxes[:, 3] - boxes[:, 1])
     sorted_inds = np.argsort(-areas)
+
+    if limit > 0:
+        sorted_inds = sorted_inds[:limit]
 
     mask_color_id = 0
     for i in sorted_inds:
@@ -385,6 +388,10 @@ def vis_one_image(
     K = 26
     ##
     inds = np.argsort(boxes[:,4])
+
+    if limit > 0:
+        inds = inds[:limit]
+
     ##
     for i, ind in enumerate(inds):
         entry = boxes[ind,:]
