@@ -390,7 +390,7 @@ def vis_one_image(
     inds = np.argsort(boxes[:,4])
 
     if limit > 0:
-        inds = inds[:limit]
+        inds = inds[-limit:]
 
     ##
     for i, ind in enumerate(inds):
