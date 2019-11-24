@@ -428,7 +428,7 @@ def vis_one_image(
 
 
 def vis_IUV(
-        im, boxes, segms=None, keypoints=None, body_uv=None, thresh=0.9):
+        im, boxes, segms=None, keypoints=None, body_uv=None, thresh=0.9, limit=0):
     """Visual debugging of detections."""
 
     if isinstance(boxes, list):
@@ -445,6 +445,10 @@ def vis_IUV(
     All_Coords = np.zeros(im.shape)
     ##
     inds = np.argsort(boxes[:,4])
+
+    if limit > 0:
+        inds = inds[-limit:]
+
     ##
     for i, ind in enumerate(inds):
         entry = boxes[ind,:]
